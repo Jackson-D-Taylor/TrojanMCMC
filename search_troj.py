@@ -15,8 +15,7 @@ from enterprise.signals import white_signals
 from enterprise.signals.gp_signals import MarginalizingTimingModel
 from enterprise_extensions import blocks
 
-# from troj_signal_old import troj_res_block, troj_res_block_unif
-from troj_signal_2nd import troj_res_block, troj_res_block_unif
+from troj_signal_a_term import troj_res_block
 from custom_priors import AuxiliaryCircularJump
 from enterprise.signals import signal_base
 
@@ -85,9 +84,7 @@ nu_max = n_b * np.sqrt(2) / 2 * 1.2  # this is larger than the other nu_max
 
 tmin = psr.toas.min()
 tmax = psr.toas.max()
-t_avg = (tmin + tmax) / 2
-T_asc = model.TASC.value * 86400
-t_avg_Const = parameter.Constant(t_avg)("t_avg")
+T_asc = model.TASC.value * 86400  # convert from days to seconds
 T_asc_Const = parameter.Constant(T_asc)("T_asc")
 Tspan = tmax - tmin
 print(f"Tspan for {pname} =  {Tspan/(365.25*86400)} years.")
