@@ -2,6 +2,8 @@
 
 date
 
+module load lang/python/cpython_3.11.3_gcc122
+
 for psr in J0023+0923_synthetic_injected4 J0023+0923_synthetic_injected5 J0023+0923_synthetic_injected6 J0023+0923_synthetic_injected7 J0023+0923_synthetic_injected8 J0023+0923_synthetic_no_signal J0023+0923_synthetic_injectedactual
 
 do
