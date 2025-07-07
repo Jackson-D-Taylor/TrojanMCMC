@@ -11,11 +11,6 @@ psr = args.psr
 temps = args.temps
 niter = int(float(args.num_of_iteration))
 
-B_lim_str = ""
-if "unifB" in psr:
-    B_lim_small = int(psr[-7])
-    B_lim_str = f" --B_lim {B_lim_small+0.5},{B_lim_small-0.5}"
-
 if os.path.exists("/lorule/scratch/jdt00012"):  # for link:
     file_string = (
         "#!/bin/bash\n"
@@ -33,7 +28,7 @@ if os.path.exists("/lorule/scratch/jdt00012"):  # for link:
         "\n"
         "which python\n"
         "\n"
-        f"mpirun -np {temps} python search_troj.py -pname {psr} -mc_min 0.016388 -niter {niter} --synthetic{B_lim_str}\n"
+        f"mpirun -np {temps} python search_troj.py -pname {psr} -mc_min 0.016388 -niter {niter} --synthetic\n"
         "\n"
         "echo all done\n"
         "date"
@@ -57,9 +52,9 @@ else:  # for thorny flats:
         "micromamba activate trojans\n"
         "\n"
         "\n"
-        "which python\n"
+        "which python3\n"
         "\n"
-        f"mpirun -np {temps} python search_troj.py -pname {psr} -mc_min 0.016388 -niter {niter} --synthetic{B_lim_str}\n"
+        f"mpirun -np {temps} python3 search_troj.py -pname {psr} -mc_min 0.016388 -niter {niter} --synthetic\n"
         "\n"
         "echo all done\n"
         "date"
