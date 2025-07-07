@@ -61,6 +61,7 @@ else:  # for thorny flats:
         "module load parallel/openmpi/5.0.2_gcc122\n"
         "module load lang/gcc/12.2.0\n"
         "module load libs/openblas/0.3.26_gcc122\n"
+        "source ~/.bashrc\n"
         "micromamba activate trojans\n"
         "\n"
         "\n"
