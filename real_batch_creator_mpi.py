@@ -58,7 +58,7 @@ else:  # for thorny flats:
         "\n"
         "\n"
         "date\n"
-        "module load lang/python/cpython_3.11.3_gcc122\n"
+        # "module load lang/python/cpython_3.11.3_gcc122\n"
         "module load parallel/openmpi/5.0.2_gcc122\n"
         "module load lang/gcc/12.2.0\n"
         "module load libs/openblas/0.3.26_gcc122\n"
