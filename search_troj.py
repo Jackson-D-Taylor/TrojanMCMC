@@ -166,5 +166,8 @@ sampler.sample(
     maxIter=int(4 * niter),
     writeHotChains=True,
     hotChain=True,
+    SCAMweight=4,
+    AMweight=2,
+    DEweight=15,
 )
 shutil.move(f"{pname}.out", f"{chaindir}/{pname}.out")
