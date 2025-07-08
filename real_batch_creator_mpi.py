@@ -54,7 +54,7 @@ else:  # for thorny flats:
         f"#SBATCH --output={psr}.out\n"
         f"#SBATCH -e {psr}.err\n"
         "#\n"
-        "#SBATCH --partition=comm_small_week\n"
+        "#SBATCH --partition=comm_med_week\n"
         f"#SBATCH --ntasks={temps}\n"
         "#SBATCH --time=7-00:00:00\n"  # 7 days
         "\n"
