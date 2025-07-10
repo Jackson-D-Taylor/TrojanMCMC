@@ -12,17 +12,19 @@ psr = args.psr
 temps = args.temps
 niter = int(float(args.num_of_iteration))
 resume_date = args.resume_date
+resume = ""
 
 if resume_date:
     resume_date = f"-rd {resume_date}"
+    resume = "_resume"
 
 if os.path.exists("/lorule/scratch/jdt00012"):  # for link:
     file_string = (
         "#!/bin/bash\n"
         "\n"
-        f"#SBATCH --job-name={psr}\n"
-        f"#SBATCH --output={psr}.out\n"
-        f"#SBATCH -e {psr}.err\n"
+        f"#SBATCH --job-name={psr}{resume}\n"
+        f"#SBATCH --output={psr}{resume}.out\n"
+        f"#SBATCH -e {psr}{resume}.err\n"
         "#\n"
         f"#SBATCH --ntasks={temps}\n"
         "\n"
@@ -42,9 +44,9 @@ else:  # for thorny flats:
     file_string = (
         "#!/bin/bash\n"
         "\n"
-        f"#SBATCH --job-name={psr}\n"
-        f"#SBATCH --output={psr}.out\n"
-        f"#SBATCH -e {psr}.err\n"
+        f"#SBATCH --job-name={psr}{resume}\n"
+        f"#SBATCH --output={psr}{resume}.out\n"
+        f"#SBATCH -e {psr}{resume}.err\n"
         "#\n"
         "#SBATCH --partition=comm_small_week\n"
         f"#SBATCH --ntasks={temps}\n"

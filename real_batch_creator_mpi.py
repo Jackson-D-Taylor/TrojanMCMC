@@ -5,11 +5,18 @@ parser = argparse.ArgumentParser()
 parser.add_argument("psr")
 parser.add_argument("-t", "--temps", default=4, type=int)
 parser.add_argument("-niter", "--num_of_iteration", default=int(1e6))
+parser.add_argument("-rd", "--resume_date", type=str, default="")
 
 args = parser.parse_args()
 psr = args.psr
 temps = args.temps
 niter = int(float(args.num_of_iteration))
+resume_date = args.resume_date
+resume = ""
+
+if resume_date:
+    resume_date = f"-rd {resume_date}"
+    resume = "_resume"
 
 mc_min_dict = {
     "J0023+0923": 0.016388,
@@ -27,9 +34,9 @@ if os.path.exists("/lorule/scratch/jdt00012"):  # for link:
     file_string = (
         "#!/bin/bash\n"
         "\n"
-        f"#SBATCH --job-name={psr}\n"
-        f"#SBATCH --output={psr}.out\n"
-        f"#SBATCH -e {psr}.err\n"
+        f"#SBATCH --job-name={psr}{resume}\n"
+        f"#SBATCH --output={psr}{resume}.out\n"
+        f"#SBATCH -e {psr}{resume}.err\n"
         "#\n"
         f"#SBATCH --ntasks={temps}\n"
         "\n"
@@ -40,7 +47,7 @@ if os.path.exists("/lorule/scratch/jdt00012"):  # for link:
         "\n"
         "which python\n"
         "\n"
-        f"mpirun -np {temps} python search_troj.py -pname {psr} -mc_min {mc_min} -niter {niter}\n"
+        f"mpirun -np {temps} python search_troj.py -pname {psr} -mc_min {mc_min} -niter {niter} {resume_date}\n"
         "\n"
         "echo all done\n"
         "date"
@@ -50,9 +57,9 @@ else:  # for thorny flats:
     file_string = (
         "#!/bin/bash\n"
         "\n"
-        f"#SBATCH --job-name={psr}\n"
-        f"#SBATCH --output={psr}.out\n"
-        f"#SBATCH -e {psr}.err\n"
+        f"#SBATCH --job-name={psr}{resume}\n"
+        f"#SBATCH --output={psr}{resume}.out\n"
+        f"#SBATCH -e {psr}{resume}.err\n"
         "#\n"
         "#SBATCH --partition=comm_small_week\n"
         f"#SBATCH --ntasks={temps}\n"
@@ -62,7 +69,6 @@ else:  # for thorny flats:
         "date\n"
         "echo Running on host: $(hostname)\n"
         "echo Job ID: $SLURM_JOB_ID\n"
-        # "module load lang/python/cpython_3.11.3_gcc122\n"
         "module load parallel/openmpi/5.0.2_gcc122\n"
         "module load lang/gcc/12.2.0\n"
         "module load libs/openblas/0.3.26_gcc122\n"
@@ -72,7 +78,7 @@ else:  # for thorny flats:
         "\n"
         "which python3\n"
         "\n"
-        f"mpirun -np {temps} python3 search_troj.py -pname {psr} -mc_min {mc_min} -niter {niter}\n"
+        f"mpirun -np {temps} python3 search_troj.py -pname {psr} -mc_min {mc_min} -niter {niter} {resume_date}\n"
         "\n"
         "echo all done\n"
         "date"
