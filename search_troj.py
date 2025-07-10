@@ -37,12 +37,20 @@ parser.add_argument(
     type=bool,
     default=False,
 )
+parser.add_argument(
+    "-rd",
+    "--resume_date",
+    type=str,
+    default=None,
+    help="Date to resume from, in the format DDMMM_YYYY",
+)
 
 args = parser.parse_args()
 pname = args.pulsar_name
 pname_files = pname
 niter = args.num_of_iteration
 mc_min = args.m_c_min_mass
+resume_date = args.resume_date
 
 print(f"Working on PSR {pname}.")
 
@@ -150,9 +158,17 @@ if not os.path.exists(top_chaindir):
     sys.exit("Error: scratch directory does not exist")
 chaindir = f"{top_chaindir}/chains_{formatted_date}/{pname}/"
 
+if resume_date is not None:
+    chaindir = f"{top_chaindir}/chains_{resume_date}/{pname}/"
+
 
 sampler = ptmcmc(
-    ndim, pta.get_lnlikelihood, pta.get_lnprior, cov, outDir=chaindir, resume=False
+    ndim,
+    pta.get_lnlikelihood,
+    pta.get_lnprior,
+    cov,
+    outDir=chaindir,
+    resume=bool(resume_date),
 )
 
 # this enforces theta, phi within [0, 2pi] by sending theta to theta % (2pi) and phi to phi % (2pi),

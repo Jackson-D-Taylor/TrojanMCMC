@@ -5,11 +5,16 @@ parser = argparse.ArgumentParser()
 parser.add_argument("psr")
 parser.add_argument("-t", "--temps", default=4, type=int)
 parser.add_argument("-niter", "--num_of_iteration", default=int(1e6))
+parser.add_argument("-rd", "--resume_date", type=str, default="")
 
 args = parser.parse_args()
 psr = args.psr
 temps = args.temps
 niter = int(float(args.num_of_iteration))
+resume_date = args.resume_date
+
+if resume_date:
+    resume_date = f"-rd {resume_date}"
 
 if os.path.exists("/lorule/scratch/jdt00012"):  # for link:
     file_string = (
@@ -28,7 +33,7 @@ if os.path.exists("/lorule/scratch/jdt00012"):  # for link:
         "\n"
         "which python\n"
         "\n"
-        f"mpirun -np {temps} python search_troj.py -pname {psr} -mc_min 0.016388 -niter {niter} --synthetic\n"
+        f"mpirun -np {temps} python search_troj.py -pname {psr} -mc_min 0.016388 -niter {niter} --synthetic {resume_date}\n"
         "\n"
         "echo all done\n"
         "date"
@@ -59,7 +64,7 @@ else:  # for thorny flats:
         "\n"
         "which python3\n"
         "\n"
-        f"mpirun -np {temps} python3 search_troj.py -pname {psr} -mc_min 0.016388 -niter {niter} --synthetic\n"
+        f"mpirun -np {temps} python3 search_troj.py -pname {psr} -mc_min 0.016388 -niter {niter} --synthetic {resume_date}\n"
         "\n"
         "echo all done\n"
         "date"
