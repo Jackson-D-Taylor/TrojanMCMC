@@ -52,9 +52,9 @@ echo -e "t value: $t_val"
 echo -e "niter value: $niter_val\n"
 
 if [[ "$psr" == *synthetic* ]]; then
-  python_script="synthetic_batch_creator_mpi.py $psr -t $t_val -niter $niter_val -rd $resume_date"
+  python_script="synthetic_batch_creator_mpi.py"
 else
-  python_script="real_batch_creator_mpi.py $psr -t $t_val -niter $niter_val -rd $resume_date"
+  python_script="real_batch_creator_mpi.py"
 fi
 
 # Confirm script selection
@@ -66,9 +66,9 @@ if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
 fi
 
 # Run selected script
-echo -e "\n$python_script"
+echo -e "\n$python_script $psr -t $t_val -niter $niter_val -rd $resume_date"
 echo -e "$psr.sbatch\n"
-python3 "$python_script"
+python3 "$python_script" "$psr" "-t" "$t_val" "-niter" "$niter_val" "-rd" "$resume_date"
 sbatch "$psr.sbatch"
 
 date
