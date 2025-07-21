@@ -176,14 +176,17 @@ sampler = ptmcmc(
 circ_aux_jump = AuxiliaryCircularJump(pta)
 sampler.addAuxilaryJump(circ_aux_jump)
 
-sampler.sample(
-    x0,
-    niter,
-    maxIter=int(4 * niter),
-    writeHotChains=True,
-    hotChain=True,
-    SCAMweight=4,
-    AMweight=2,
-    DEweight=15,
-)
-shutil.move(f"{pname}.out", f"{chaindir}/{pname}.out")
+try:
+    sampler.sample(
+        x0,
+        niter,
+        maxIter=int(4 * niter),
+        writeHotChains=True,
+        hotChain=True,
+        SCAMweight=4,
+        AMweight=2,
+        DEweight=15,
+    )
+finally:
+    shutil.move(f"{pname}.out", f"{chaindir}/{pname}.out")
+    shutil.move(f"{pname}.err", f"{chaindir}/{pname}.err")
