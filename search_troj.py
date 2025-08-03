@@ -82,13 +82,15 @@ n_b = f_b * np.pi * 2
 
 m_p = 1.35
 mu_max = 1 / 27 * 1.1
-mu_min = mc_min / (mc_min + m_p) * 0.8
+mu_min = (
+    mc_min / (mc_min + m_p) * 0.8
+)  # this corresponds to the smallest mu from the highest mass pulsar
 nu_min = n_b * np.sqrt(27 / 4 * mu_min)
 # nu_max = n_b * np.sqrt(27/4 * mu_max)
 
 # kappa = (1.4 - mc_min) / (1.4 + mc_min)
 # nu_min = 1/10 * n_b/2 * np.sqrt(2 - np.sqrt(27*kappa**2 - 23))
-nu_max = n_b * np.sqrt(2) / 2 * 1.2  # this is larger than the other nu_max
+nu_max = n_b * np.sqrt(2) / 2  # this is larger than the other nu_max.
 
 tmin = psr.toas.min()
 tmax = psr.toas.max()
