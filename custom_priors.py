@@ -7,7 +7,7 @@ class AuxiliaryCircularJump:
     rather than rejecting proposals that would take theta or phi outside of [0, 2pi].
     """
 
-    def __init__(self, pta, circular_param_names=["phi", "theta"], period=2 * np.pi):
+    def __init__(self, pta, circular_param_names=["phi"], period=2 * np.pi):
         self.pta = pta
         self.period = period
         self.pulsar_name = pta.pulsars[0]

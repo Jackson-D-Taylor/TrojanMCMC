@@ -204,5 +204,9 @@ try:
         DEweight=15,
     )
 finally:
-    shutil.move(f"{pname}.out", f"{chaindir}/{pname}.out")
-    shutil.move(f"{pname}.err", f"{chaindir}/{pname}.err")
+    if args.targeted_theta_low:
+        shutil.move(f"{pname}_targeted.out", f"{chaindir}/{pname}_targeted.out")
+        shutil.move(f"{pname}_targeted.err", f"{chaindir}/{pname}_targeted.err")
+    else:
+        shutil.move(f"{pname}.out", f"{chaindir}/{pname}.out")
+        shutil.move(f"{pname}.err", f"{chaindir}/{pname}.err")
