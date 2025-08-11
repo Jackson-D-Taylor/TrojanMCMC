@@ -113,7 +113,7 @@ def troj_res_targeted_theta_low(toas, n_b, log_B, nu, log_eta, phi, T_asc):
     return trojan_residuals
 
 
-def troj_res_block_targeted_theta(
+def troj_res_block_targeted_theta_low(
     nu,
     n_b,
     T_asc,
