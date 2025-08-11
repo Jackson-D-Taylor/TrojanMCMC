@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH --job-name=J0023+0923
-#SBATCH --output=J0023+0923.out
-#SBATCH -e J0023+0923.err
+#SBATCH --job-name=J0023+0923_targeted
+#SBATCH --output=J0023+0923_targeted.out
+#SBATCH -e J0023+0923_targeted.err
 #
 #SBATCH --partition=comm_small_week
 #SBATCH --ntasks=16
