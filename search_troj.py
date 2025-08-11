@@ -15,7 +15,7 @@ from enterprise.signals import white_signals
 from enterprise.signals.gp_signals import MarginalizingTimingModel
 from enterprise_extensions import blocks
 
-from troj_signal_a_term import troj_res_block
+from troj_signal_a_term import troj_res_block, troj_res_block_targeted_theta_low
 from custom_priors import AuxiliaryCircularJump
 from enterprise.signals import signal_base
 
@@ -43,6 +43,13 @@ parser.add_argument(
     type=str,
     default=None,
     help="Date to resume from, in the format DDMMM_YYYY",
+)
+parser.add_argument(
+    "--targeted_theta_low",
+    help="Whether to use targeted theta",
+    action=argparse.BooleanOptionalAction,
+    type=bool,
+    default=False,
 )
 
 args = parser.parse_args()
@@ -124,7 +131,14 @@ if args.synthetic and pname[-1] in "45":
         T_asc=T_asc_Const,
     )
 else:
-    troj = troj_res_block(nu=Uniform(nu_min, nu_max), n_b=n_b_Const, T_asc=T_asc_Const)
+    if args.targeted_theta_low:
+        troj = troj_res_block_targeted_theta_low(
+            nu=Uniform(nu_min, nu_max), n_b=n_b_Const, T_asc=T_asc_Const
+        )
+    else:
+        troj = troj_res_block(
+            nu=Uniform(nu_min, nu_max), n_b=n_b_Const, T_asc=T_asc_Const
+        )
 
 signal_model = tm + efeq + ec + rn + troj
 pta = signal_base.PTA(signal_model(psr))
