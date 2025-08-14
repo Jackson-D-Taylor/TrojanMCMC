@@ -51,6 +51,13 @@ parser.add_argument(
     type=bool,
     default=False,
 )
+parser.add_argument(
+    "--free_theta",
+    help="Whether to use free theta",
+    action=argparse.BooleanOptionalAction,
+    type=bool,
+    default=False,
+)
 
 args = parser.parse_args()
 pname = args.pulsar_name
@@ -135,6 +142,13 @@ else:
         troj = troj_res_block_targeted_theta_low(
             nu=Uniform(nu_min, nu_max), n_b=n_b_Const, T_asc=T_asc_Const
         )
+    elif args.free_theta:
+        troj = troj_res_block(
+            nu=Uniform(nu_min, nu_max),
+            n_b=n_b_Const,
+            T_asc=T_asc_Const,
+            theta=Uniform(0, 2 * pi),
+        )
     else:
         troj = troj_res_block(
             nu=Uniform(nu_min, nu_max), n_b=n_b_Const, T_asc=T_asc_Const
@@ -189,7 +203,10 @@ sampler = ptmcmc(
 
 # this enforces theta, phi within [0, 2pi] by sending theta to theta % (2pi) and phi to phi % (2pi),
 # rather than rejecting proposals that would take theta or phi outside of [0, 2pi]
-circ_aux_jump = AuxiliaryCircularJump(pta)
+if args.free_theta:
+    circ_aux_jump = AuxiliaryCircularJump(pta, circular_param_names=["phi", "theta"])
+else:
+    circ_aux_jump = AuxiliaryCircularJump(pta, circular_param_names=["phi"])
 sampler.addAuxilaryJump(circ_aux_jump)
 
 try:
@@ -207,6 +224,9 @@ finally:
     if args.targeted_theta_low:
         shutil.move(f"{pname}_targeted.out", f"{chaindir}/{pname}_targeted.out")
         shutil.move(f"{pname}_targeted.err", f"{chaindir}/{pname}_targeted.err")
+    elif args.free_theta:
+        shutil.move(f"{pname}_free.out", f"{chaindir}/{pname}_free.out")
+        shutil.move(f"{pname}_free.err", f"{chaindir}/{pname}_free.err")
     else:
         shutil.move(f"{pname}.out", f"{chaindir}/{pname}.out")
         shutil.move(f"{pname}.err", f"{chaindir}/{pname}.err")
