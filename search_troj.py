@@ -22,6 +22,8 @@ from enterprise.signals import signal_base
 from PTMCMCSampler.PTMCMCSampler import PTSampler as ptmcmc
 import pint.models.model_builder as mb
 
+pi = np.pi
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-pname", "--pulsar_name", type=str)
 parser.add_argument(
@@ -90,9 +92,9 @@ if f_b is None:
     P_b_seconds = P_b_days * 86400
     f_b = 1 / P_b_seconds
 
-n_b_Const = parameter.Constant(f_b * np.pi * 2)("n_b")
-n_b = f_b * np.pi * 2
-# n_b = f_b * np.pi*2
+n_b_Const = parameter.Constant(f_b * pi * 2)("n_b")
+n_b = f_b * pi * 2
+# n_b = f_b * pi*2
 
 m_p = 1.35
 mu_max = 1 / 27 * 1.1
